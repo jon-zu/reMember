@@ -51,5 +51,6 @@ Server targeting a 2d sidescroller with shrooms.
 
 1. Clone the repo
 2. Init the submodules( `git submodule init` `git submodule update`)
+3. Build scripts `cargo watch -w crates/scripts-lib/scripts/src -x 'build -p scripts'` (Use an extra terminal for this)
 3. Build and run the server `RUST_LOG=info cargo r -p mono`
-4. Launch the client with the IP and Port passed as argument
+4. Launch the client(Hendi's localhost for 95.1 4gb is recommended)
