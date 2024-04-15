@@ -1,0 +1,40 @@
+[package]
+name = "shroom-meta"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "shroom_meta"
+path = "src/lib.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+
+[dependencies]
+rayon = "1"
+anyhow = "1"
+bincode = "1"
+geo = "0.28"
+geo-svg = "0.6"
+itertools = "0.12"
+rand = "0.8"
+rstar = { version = "0.12", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+pest = { version = "2" }
+pest_derive = "2"
+lazy_static = "1"
+regress = "0.9"
+either = { version = "1.9.0", features = ["serde"] }
+euclid = { version = "0.22", features = ["serde"] }
+paste = "1"
+shroom-pkt = { git = "https://github.com/jon-zu/shroom-lib.git" }
+bytes = "1"
+strsim = "0.11"
+num_enum = "0.7"
+bitflags = { version = "2", features = ["serde"] }
+#arcstr = "1.1.5"
+probly-search = "2.0.0"
+enum-map = { version = "2.7.3" , features = ["serde"]}
+chrono = "0.4.37"
+derive_more = {version = "1.0.0-beta.6", features = ["full"] }

@@ -1,0 +1,40 @@
+[package]
+name = "shroom-game"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+websockets = []
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1"
+bytes = "1"
+chrono = "0.4"
+clap = { version = "4", features = ["derive"] }
+dashmap = "5"
+log = "0.4"
+either = "1"
+geo = "0.28"
+itertools = "0.12"
+num = "0.4"
+thiserror = "1"
+trackr = "0.1"
+num_enum = "0.7"
+uuid = "1"
+shroom-srv = "0.1"
+shroom-pkt = "0.1"
+shroom-net = { version = "0.4" }
+shroom-data = { version = "0.1.0", path = "../shroom-data" }
+shroom-proto95 = { version = "0.1.0", path = "../shroom-proto95" }
+shroom-meta = { version = "0.1", path = "../shroom-meta" }
+shroom-script = { path = "../shroom-script" }
+scripts-lib = { path = "../scripts-lib" }
+derive_more = "0.99.17"
+slotmap = "1.0.7"
+sea-orm = "0.12"
+crossbeam = "0.8.4"
+slab = "0.4"
+rand = "0.8.5"
+tokio = { version = "1.37.0", features = ["net"] }

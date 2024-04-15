@@ -1,0 +1,3 @@
+num_worlds = 1
+num_channels = 1
+external_ip = "127.0.0.1"

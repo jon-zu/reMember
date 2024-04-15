@@ -1,0 +1,19 @@
+[package]
+name = "scripts"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[profile.release]
+strip = true
+
+[dependencies]
+shroom-script = { path="../../shroom-script" }
+anyhow = "1"
+rand = "0.8"
+shroom-proto95 = { path="../../shroom-proto95" }
+shroom-meta = { path="../../shroom-meta" }
+num_enum = "0.7"
+

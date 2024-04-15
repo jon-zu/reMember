@@ -1,0 +1,25 @@
+[package]
+name = "mono"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+websockets = ["shroom-game/websockets"]
+#default = ["websockets"]
+
+[dependencies]
+anyhow = { version = "1", features = ["backtrace"] }
+config = { version = "0.14", features = ["toml"] }
+log = "0.4"
+pretty_env_logger = "0.5"
+serde = { version = "1", features = ["derive"] }
+tokio = "1"
+shroom-srv = "0.1"
+shroom-net = { version = "0.4", default-features = false, features = [] }
+dotenv = "0.15"
+shroom-data = { version = "0.1.0", path = "../shroom-data" }
+shroom-login = { version = "0.1", path = "../shroom-login" }
+shroom-meta = { version = "0.1", path = "../shroom-meta" }
+shroom-game = { version = "0.1", path = "../shroom-game" }
+local-ip-address = "0.6.1"
+http = "1.1.0"

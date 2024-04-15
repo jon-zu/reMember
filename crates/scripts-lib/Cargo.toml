@@ -1,0 +1,15 @@
+[package]
+name = "scripts-lib"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+hot-lib-reloader = "0.7"
+scripts = { path = "scripts" }
+shroom-meta = { path= "../shroom-meta" }
+shroom-script = { path= "../shroom-script" }
+shroom-proto95 = { path= "../shroom-proto95" }
+log = "0.4"
+anyhow = "1"

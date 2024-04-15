@@ -1,0 +1,20 @@
+[package]
+name = "shroom-proto95"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1"
+bitflags = "2"
+bytes = "1"
+num_enum = "0.7"
+shroom-pkt = { git = "https://github.com/jon-zu/shroom-lib.git" }
+shroom-meta = { path = "../shroom-meta" }
+euclid = { version = "0.22", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+bit-struct = "0.3"
+smallvec = "1"
+hexlit = "0.5"
+paste = "1"

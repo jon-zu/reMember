@@ -1,0 +1,21 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/shroom-proto95",
+    "crates/shroom-meta",
+    "crates/mono",
+    "crates/shroom-data",
+    "crates/shroom-data/migration",
+    "crates/shroom-game",
+    "crates/shroom-login",
+    "crates/shroom-srv", 
+    "crates/shroom-script", 
+    "crates/scripts-lib", 
+    #"crates/shroom-metagen",
+]
+
+# Shroom crates for now
+[patch.crates-io]
+shroom-net = { git = "https://github.com/jon-zu/shroom-lib" }
+shroom-pkt = { git = "https://github.com/jon-zu/shroom-lib" }
+shroom-srv = { path = "crates/shroom-srv" }

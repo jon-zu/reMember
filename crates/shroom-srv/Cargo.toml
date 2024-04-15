@@ -1,0 +1,25 @@
+[package]
+name = "shroom-srv"
+version = "0.1.0"
+edition = "2021"
+
+[dev-dependencies]
+turmoil = "0.6"
+
+[dependencies]
+anyhow = "1.0.75"
+bytes = "1.5.0"
+dashmap = "5.5.3"
+futures = "0.3.29"
+log = "0.4.20"
+tokio = { version = "1", features = ["full"] }
+pin-project-lite = "0.2"
+thiserror = "1.0.50"
+shroom-net = { version = "0.4", default-features = false, features = [] }
+shroom-pkt = { version = "0.1.1" }
+tokio-stream = { version = "0.1.14", features = ["full"] }
+bitflags = "2.4.2"
+either = "1.10.0"
+stable-vec = "0.4.1"
+smallvec = "1.13.2"
+veccell = "0.4.0"

@@ -1,0 +1,39 @@
+/target
+/Cargo.lock
+**/target
+
+# vscode
+.vscode/
+
+# Env files
+*.env
+
+# sqlite databases
+*.db
+
+# PCap logs
+*.pcapng
+
+# Keys
+keys/**
+
+# data files
+game_data/**
+/shroom-metadata
+
+# tuf
+client_repo/**
+
+*.svg
+*.png
+*.tar
+*.tar.xz
+*.zip
+**/deploy.sh
+
+## eof log
+packets_eof.log
+
+strings.json
+get_str.py
+.idea

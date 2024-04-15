@@ -1,0 +1,45 @@
+[package]
+name = "shroom-data"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+
+[dependencies]
+anyhow = "1"
+array-init = "2"
+chrono = "0.4"
+constant_time_eq = "0.3"
+either = "1"
+enum-map = "2.7"
+derive_more = "1.0.0-beta.6"
+itertools = "0.12"
+log = "0.4"
+num_enum = "0.7"
+rand = "0.8"
+sea-orm = { version = "0.12", features = [
+    "sqlx-sqlite",
+    "sqlx-postgres",
+    "runtime-tokio-native-tls",
+    "macros",
+] }
+thiserror = "1"
+tokio = { version = "1", features = ["rt", "macros"] }
+password-hash = "0.5"
+argon2 = "0.5"
+bytemuck = { version = "1", features = ["derive"] }
+smallvec = "1"
+shroom-meta = { version = "0.1", path = "../shroom-meta" }
+shroom-pkt = "0.1.1"
+shroom-srv = "0.1"
+shroom-proto95 = { version = "0.1.0", path = "../shroom-proto95" }
+serde = { version = "1", features = ["derive"] }
+bincode = "1"
+lzzzz = "1"
+ouroboros = "0.18.3"
+
+
+[dependencies.uuid]
+version = "1"
+features = ["v4", "fast-rng", "macro-diagnostics"]
