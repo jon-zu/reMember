@@ -287,7 +287,7 @@ impl GameSession {
             ReplCmd::SpamDrop => None,
             ReplCmd::StopSpamDrop => None,
             ReplCmd::Script { q } => {
-                let Some(script) = self.services.game.scripts.get_npc_script(&q, NpcId::ADMIN) else {
+                let Some(script) = self.services.game.scripts.get_npc_script(NpcId::ADMIN) else {
                     return Ok(Some("Script not found".to_string()));
                 };
                 log::info!("Loading script: {q}");

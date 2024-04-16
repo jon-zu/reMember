@@ -1,5 +1,4 @@
 use std::{
-    cell::UnsafeCell,
     future::Future,
     pin::Pin,
     ptr,
@@ -45,8 +44,8 @@ impl<Ctx, Input> Shared<Ctx, Input> {
         self.ctx.load(Ordering::SeqCst).is_null()
     }
 
-    fn set_ctx(&self, ctx: &UnsafeCell<Ctx>) {
-        self.ctx.store(ctx.get(), Ordering::SeqCst);
+    fn set_ctx(&self, ctx: *mut Ctx) {
+        self.ctx.store(ctx, Ordering::SeqCst);
     }
 
     fn clr_ctx(&self) {
@@ -178,14 +177,8 @@ where
 
         let this = self.project();
 
-        // TODO wait for stabilization
-        pub fn from_mut<T>(value: &mut T) -> &mut UnsafeCell<T> {
-            // SAFETY: `UnsafeCell<T>` has the same memory layout as `T` due to #[repr(transparent)].
-            unsafe { &mut *(value as *mut T as *mut UnsafeCell<T>) }
-        }
-
         // Set the context for the state
-        this.state.set_ctx(from_mut(ctx));
+        this.state.set_ctx(ctx);
         // Build the future context
         let mut cx = futures::task::Context::from_waker(this.waker);
         let res = this.future.poll(&mut cx);

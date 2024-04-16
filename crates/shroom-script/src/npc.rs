@@ -3,7 +3,7 @@ use std::pin::Pin;
 use futures::Future;
 use shroom_meta::{
     fmt::{ShroomDisplay, ShroomMenuItem, ShroomMenuList},
-    id::{job_id::JobId, FieldId, ItemId, Money},
+    id::{job_id::JobId, FieldId, ItemId, Money, NpcId, QuestId},
     QuestDataId,
 };
 use shroom_proto95::game::script::{
@@ -96,6 +96,10 @@ pub type NpcCtx = StateRef<BoxedSessionCtx, NpcAction>;
 impl NpcCtx {
     pub fn meta(&self) -> &'static shroom_meta::MetaService {
         self.with(|c| c.meta())
+    }
+
+    pub fn npc_id(&self) -> NpcId {
+        self.with(|c| c.current_npc_id().unwrap())
     }
 
     pub fn get_quest_data<T: QuestData>(&self) -> anyhow::Result<Option<T>> {
@@ -365,6 +369,10 @@ impl NpcCtx {
 
     pub fn set_job(&mut self, job: JobId) {
         self.with_mut(|c| c.set_job(job))
+    }
+
+    pub fn has_completed_quest(&self, id: QuestId) -> bool {
+        self.with(|c| c.has_completed_quest(id))
     }
 }
 

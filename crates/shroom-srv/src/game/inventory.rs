@@ -3,10 +3,9 @@ use thiserror::Error;
 
 use super::id_ix_map::IdIndexMap;
 
-pub trait InvItemId: Eq + std::hash::Hash + Copy + std::fmt::Debug {
-}
+pub trait InvItemId: Eq + std::hash::Hash + Copy + std::fmt::Debug {}
 
-impl<T: Eq + std::hash::Hash + Copy + std::fmt::Debug> InvItemId for T{}
+impl<T: Eq + std::hash::Hash + Copy + std::fmt::Debug> InvItemId for T {}
 
 pub trait InvSlotIndex: Copy + Ord + std::fmt::Debug {
     fn to_ix(&self) -> usize;
@@ -109,9 +108,7 @@ impl<'a, T: InvItem> Iterator for ItemSlotsIdIter<'a, T> {
     fn next(&mut self) -> Option<Self::Item> {
         if let Some(&slot) = self.slots_ix.first() {
             self.slots_ix = &self.slots_ix[1..];
-            // Safety: the item will live as long the iterator lives
-            // so we can extend the lifetime here
-            let item = unsafe { std::mem::transmute(self.slots.get(slot.to_ix()).unwrap()) };
+            let item = self.slots.get(slot.to_ix()).unwrap();
             Some((slot, item))
         } else {
             None
@@ -130,8 +127,7 @@ impl<'a, T: InvItem> Iterator for ItemSlotsIdIterMut<'a, T> {
     fn next(&mut self) -> Option<Self::Item> {
         if let Some(&slot) = self.slots_ix.first() {
             self.slots_ix = &self.slots_ix[1..];
-            // Safety: the item will live as long the iterator lives
-            // so we can extend the lifetime here
+            // Safety: the iterator lives shorter than the mutable reference
             let item = unsafe { std::mem::transmute(self.slots.get_mut(slot.to_ix()).unwrap()) };
             Some((slot, item))
         } else {
@@ -373,7 +369,7 @@ mod tests {
             Self(id)
         }
     }
-    
+
     impl InvItem for DummyItem {
         type Id = u32;
         type SlotIndex = usize;
@@ -395,6 +391,10 @@ mod tests {
             _: <Self::Item as InvItem>::SlotIndex,
             _: <Self::Item as InvItem>::SlotIndex,
         ) {
+        }
+
+        fn is_unique(&self, id: <Self::Item as InvItem>::Id) -> bool {
+            id % 2 == 0
         }
     }
 

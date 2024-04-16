@@ -33,7 +33,6 @@ pub use time::clock::{Clock, ClockHandle, Instant};
 
 pub mod util {
     pub mod delay_queue;
-    pub mod poll_state;
     pub mod supervised_task;
     //pub mod encode_buffer;
     //pub mod broadcast;

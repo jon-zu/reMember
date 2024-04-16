@@ -307,6 +307,14 @@ impl CharQuests {
             }
         }
     }
+
+    pub fn is_completed(&self, qid: QuestId) -> bool {
+        self.completed.contains_key(&qid)
+    }
+
+    pub fn is_active(&self, qid: QuestId) -> bool {
+        self.active.contains_key(&qid)
+    }
 }
 
 #[cfg(test)]

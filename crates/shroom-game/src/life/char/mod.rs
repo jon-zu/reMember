@@ -28,8 +28,7 @@ use shroom_meta::{
     class::HealBuff,
     field::SpawnPoint,
     id::{
-        item_id::InventoryType, job_id::JobId, CharacterId, FaceId, FieldId, FootholdId, HairId,
-        ItemId, ObjectId, QuestId, SkillId, Skin,
+        item_id::InventoryType, job_id::JobId, CharacterId, FaceId, FieldId, FootholdId, HairId, ItemId, NpcId, ObjectId, QuestId, SkillId, Skin
     },
     twod::Vec2,
 };
@@ -100,6 +99,7 @@ pub struct Character {
     pub last_id: u32,
 
     pub pending: DelayQueue<CharEvents>,
+    pub npc_id: Option<NpcId>,
 
     pub playtime: std::time::Duration,
     pub game_start: std::time::Instant,
@@ -163,6 +163,7 @@ impl Character {
             pending: DelayQueue::new(),
             game_start: Instant::now(),
             playtime: std::time::Duration::from_secs(model.play_time as u64),
+            npc_id: None,
             last_update: t,
             key_map,
             pets: CharPets::default(),

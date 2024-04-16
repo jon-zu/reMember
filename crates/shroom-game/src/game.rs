@@ -5,7 +5,10 @@ use scripts_lib::NpcHandle;
 use shroom_data::entity_ext::FuncKey;
 use shroom_meta::{
     buffs::char::{CharBuffMad, CharBuffPad},
-    id::{item_id::InventoryType, BuffId, CharacterId, FieldId, MobId, Money, NpcId, ObjectId, QuestId, SkillId},
+    id::{
+        item_id::InventoryType, BuffId, CharacterId, FieldId, MobId, Money, NpcId, ObjectId,
+        QuestId, SkillId,
+    },
     tmpl::item::BundleItemValue,
     FieldMeta, MetaService, QuestDataId,
 };
@@ -336,7 +339,7 @@ impl shroom_script::SessionCtx for Character {
     }
 
     fn set_job(&mut self, job: shroom_meta::id::job_id::JobId) {
-        *self.stats.job_mut() = job;
+        self.change_job(job, false).unwrap();
     }
 
     fn say(&self, msg: &str) {
@@ -346,48 +349,72 @@ impl shroom_script::SessionCtx for Character {
     fn transfer_field(&mut self, field_id: FieldId) {
         self.do_script_transfer = Some(field_id);
     }
-    
+
     fn has_item_quantity(&self, id: shroom_meta::id::ItemId, count: usize) -> bool {
         self.inventory.get_quantity(id).unwrap_or(0) >= count
     }
-    
-    fn try_take_item(&mut self, item: shroom_meta::id::ItemId, count: usize) -> anyhow::Result<bool> {
+
+    fn try_take_item(
+        &mut self,
+        item: shroom_meta::id::ItemId,
+        count: usize,
+    ) -> anyhow::Result<bool> {
         self.inventory.try_take_by_id(item, count)?;
         Ok(true)
     }
-    
-    fn try_take_items(&mut self, items: &[(shroom_meta::id::ItemId, usize)]) -> anyhow::Result<bool> {
+
+    fn try_take_items(
+        &mut self,
+        items: &[(shroom_meta::id::ItemId, usize)],
+    ) -> anyhow::Result<bool> {
         for (id, qty) in items {
             self.inventory.try_take_by_id(*id, *qty)?;
         }
         Ok(true)
     }
-    
+
     fn try_take_all_items(&mut self, id: shroom_meta::id::ItemId) -> anyhow::Result<usize> {
         self.inventory.try_take_all(id)
     }
-    
+
     fn get_quest_state_data(&self, id: QuestDataId) -> Option<Vec<u8>> {
         self.quests.quest_data.get(&id).cloned()
     }
-    
+
     fn set_quest_state_data(&mut self, id: QuestDataId, data: Vec<u8>) -> anyhow::Result<()> {
         self.quests.quest_data.insert(id, data);
         Ok(())
     }
+
+    fn current_npc_id(&self) -> Option<NpcId> {
+        self.npc_id
+    }
+
+    fn set_npc_id(&mut self, id: Option<NpcId>) {
+        self.npc_id = id;
+    }
+
+    fn has_completed_quest(&self, id: QuestId) -> bool {
+        self.quests.is_completed(id)
+    }
+
+    fn is_active_quest(&self, id: QuestId) -> bool {
+        self.quests.is_active(id)
+    }
 }
 
 impl GameSession {
-    fn handle_select_npc(&mut self, ctx: &mut GameContext, req: UserSelectNpcReq) -> anyhow::Result<()> {
+    fn handle_select_npc(
+        &mut self,
+        ctx: &mut GameContext,
+        req: UserSelectNpcReq,
+    ) -> anyhow::Result<()> {
         /*let npc = self.field_meta.get_npc(req.npc_id).unwrap();
         let script = self.meta().get_script(npc.script_id).unwrap();
         let mut script = NpcHandle::new(script, self.session.char.id);
         self.start_script(ctx, script)?;*/
 
-        let npc_id = field!(ctx).get_npc_tmpl_id(ObjectId(req.id.0)).unwrap();
-        dbg!(npc_id);
-
-        let script = match npc_id {
+       /*  let script = match npc_id {
             NpcId(1022000) => "npc_job_adv",
             NpcId(1072000) => "npc_job2_adv",
             NpcId(1072004) => "npc_job2_inside",
@@ -396,17 +423,14 @@ impl GameSession {
             NpcId(1061009) => "npc_mirror",
             NpcId(1061010) => "npc_mirror_inside",
             _ => todo!(),
-        };
+        };*/
 
-        
-        let Some(script) = self.services.game.scripts.get_npc_script(script, npc_id) else {
-            anyhow::bail!("Script not found");
-        };
+        let npc = field!(ctx).get_npc_tmpl_id(ObjectId(req.id.0)).unwrap();
+        let script = self.services.game.scripts.get_npc_script_or_fallback(npc);
         self.start_script(ctx, script)?;
-        
+
         Ok(())
     }
-
 
     fn handle_item_stat_change_use(
         &mut self,
