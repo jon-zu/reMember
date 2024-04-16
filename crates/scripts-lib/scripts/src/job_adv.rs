@@ -1,7 +1,7 @@
 use num_enum::{IntoPrimitive, TryFromPrimitive};
 use shroom_meta::{
     fmt::ShroomMenuList,
-    id::{job_id::JobId, FieldId, ItemId},
+    id::{job_id::JobId, FieldId, ItemId, QuestId},
     QuestDataId,
 };
 use shroom_script::npc::{EnumQuestData, NpcCtx};
@@ -345,5 +345,19 @@ pub async fn npc_script_holy_stone(mut api: NpcCtx) -> anyhow::Result<()> {
 
 
     api.say_end("You have chosen wisely.").await?;
+    Ok(())
+}
+
+pub async fn npc_script_priest(mut api: NpcCtx) -> anyhow::Result<()> {
+    api.wait_for_start().await?;
+
+    if api.job().level() == 3 && api.has_completed_quest(QuestId(6904)) {
+        let next = api.job().next_jobs().next().unwrap();
+        api.set_job(next);
+        api.say_end("You have job advanced").await?;
+        return Ok(());
+    }
+
+    api.say_end("???").await?;
     Ok(())
 }

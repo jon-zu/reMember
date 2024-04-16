@@ -1,10 +1,10 @@
 use shroom_script::{npc::FutureNpcPlugin, BoxedNpcPlugin, PluginBundle, PluginId};
 
-pub mod samples;
 pub mod job_adv;
+pub mod samples;
 
 macro_rules! plugin_bundle {
-    ($name:ident, $(($id:expr, $pname:ident, $pfn:path)),*) => {
+    ($name:ident, $(($id:expr, $pname:ident, $pfn:path)),*,$fallback:path) => {
         pub struct $name;
 
         impl Default for $name {
@@ -21,6 +21,10 @@ macro_rules! plugin_bundle {
                 }
             }
 
+            fn get_fallback_npc_plugin(&self) -> BoxedNpcPlugin {
+                FutureNpcPlugin::launch($fallback)
+            }
+
             fn get_id_by_name(&self, name: &str) -> Option<PluginId> {
                 Some(match name {
                     $(stringify!($pname) => $id,)*
@@ -31,6 +35,7 @@ macro_rules! plugin_bundle {
     };
 }
 
+//2081100 warrior4
 plugin_bundle!(
     BasicPluginBundle,
     (0, npc_1000, samples::npc_script_1000),
@@ -41,17 +46,19 @@ plugin_bundle!(
     (5, npc_guess, samples::npc_guess_game),
     (6, npc_boss_spawner, samples::npc_boss_spawner),
     (7, field_search, samples::npc_field_finder),
-    (8, npc_job_adv, job_adv::npc_script_warrior),
-    (9, npc_job2_adv, job_adv::npc_script_warrior2),
-    (10, npc_job2_inside, job_adv::npc_script_warrior2_inside),
-    (11, npc_chief_warrior, job_adv::npc_script_warrior_chief),
-    (12, npc_mirror, job_adv::npc_script_mirror),
-    (13, npc_mirror_inside, job_adv::npc_script_mirror_inside),
-    (14, npc_holy_stone, job_adv::npc_script_holy_stone)
+    (8, fighter, job_adv::npc_script_warrior),
+    (9, change_swordman, job_adv::npc_script_warrior2),
+    (10, inside_swordman, job_adv::npc_script_warrior2_inside),
+    (11, warrior3, job_adv::npc_script_warrior_chief),
+    (12, crack, job_adv::npc_script_mirror),
+    (13, third_job_exit, job_adv::npc_script_mirror_inside),
+    (14, holy_stone, job_adv::npc_script_holy_stone),
+    (15, warrior4, job_adv::npc_script_priest),
+    samples::npc_fallback
 );
 
 #[no_mangle]
-pub fn get_plugin_bundle() -> Box<dyn shroom_script::PluginBundle> {
+pub fn get_plugin_bundle() -> Box<dyn shroom_script::PluginBundle + Send + Sync> {
     println!("Loading Plugin bundle!");
     Box::<BasicPluginBundle>::default()
 }

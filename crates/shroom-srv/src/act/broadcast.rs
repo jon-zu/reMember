@@ -209,8 +209,6 @@ impl<R: RoomActor> RoomSessionContext<R, R::Session> {
     }
 }
 
-unsafe impl<R: Send, S: SessionActor<R> + Send> Send for RoomSessionContext<R, S> {}
-
 impl<R, S: SessionActor<R>> crate::act::Context for RoomSessionContext<R, S> {
     fn time(&self) -> Instant {
         self.t

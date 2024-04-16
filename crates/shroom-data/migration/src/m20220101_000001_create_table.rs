@@ -123,6 +123,7 @@ enum InventorySlot {
 enum Skill {
     Table,
     Id,
+    #[allow(clippy::enum_variant_names)]
     SkillId,
     CharId,
     Level,

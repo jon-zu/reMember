@@ -5,13 +5,13 @@
 # vscode
 .vscode/
 
-# Env files
+# env files
 *.env
 
 # sqlite databases
 *.db
 
-# PCap logs
+# pcap logs
 *.pcapng
 
 # Keys
@@ -34,6 +34,7 @@ client_repo/**
 ## eof log
 packets_eof.log
 
+# additionals
 strings.json
 get_str.py
 .idea

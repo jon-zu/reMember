@@ -6,6 +6,12 @@ use shroom_meta::{
 };
 use shroom_script::npc::NpcCtx;
 
+pub async fn npc_fallback(mut api: NpcCtx) -> anyhow::Result<()> {
+    api.wait_for_start().await?;
+    api.say_end(format!("Npc not implemented: {}", api.npc_id())).await?;
+    Ok(())
+}
+
 pub async fn npc_script_1000(mut api: NpcCtx) -> anyhow::Result<()> {
     api.wait_for_start().await?;
     api.say_next("Hello I'm a NPC!").await?;

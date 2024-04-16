@@ -15,6 +15,7 @@ pub mod quest;
 pub mod tmpl;
 pub mod item;
 pub mod field;
+pub mod npc;
 
 use num_enum::TryFromPrimitive;
 use serde::{Deserialize, Serialize};

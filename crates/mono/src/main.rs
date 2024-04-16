@@ -19,6 +19,17 @@ use crate::config::Environment;
 
 mod config;
 
+static BANNER: &str = r#"
+                888b     d888                        888                       
+                8888b   d8888                        888                       
+                88888b.d88888                        888                       
+888d888 .d88b.  888Y88888P888  .d88b.  88888b.d88b.  88888b.   .d88b.  888d888 
+888P"  d8P  Y8b 888 Y888P 888 d8P  Y8b 888 "888 "88b 888 "88b d8P  Y8b 888P"   
+888    88888888 888  Y8P  888 88888888 888  888  888 888  888 88888888 888     
+888    Y8b.     888   "   888 Y8b.     888  888  888 888 d88P Y8b.     888     
+888     "Y8888  888       888  "Y8888  888  888  888 88888P"   "Y8888  888"#;
+
+
 pub struct Mono {
     data_dir: PathBuf,
     env: Environment,
@@ -139,6 +150,8 @@ fn main() -> anyhow::Result<()> {
 async fn run() -> anyhow::Result<()> {
     pretty_env_logger::init();
     dotenv().ok();
+
+    log::info!("{BANNER}");
 
     let data_dir: PathBuf = std::env::var("DATA_DIR")
         .unwrap_or("".to_string())
